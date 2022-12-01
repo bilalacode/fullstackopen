@@ -1,5 +1,20 @@
 import { useState } from 'react'
-import { useEffect } from 'react'
+
+
+
+const Title = ({text}) => <h1>{text}</h1>
+const Anecdote = ({anecdote, vote}) => {
+  return(
+    <>
+    {anecdote}
+    <br>
+    </br>
+    has {vote} votes
+    </>
+  )
+}
+
+const Button = ({handleEvent, text}) => <button onClick={handleEvent}>{text}</button> 
 
 const App = () => {
   const anecdotes = [
@@ -13,24 +28,30 @@ const App = () => {
   ]
   
   const [selected, setSelected] = useState(0)
+  const [vote, updateVote] = useState(new Uint8Array(7))
   const randomNumber = () => setSelected(Math.floor(Math.random() * anecdotes.length))
-  const votes = new Uint8Array(6)
+  const mostVotes = Math.max(...vote)
+  const mostVotesInd = vote.indexOf(mostVotes)
   const handleVote = () => {
-    votes[selected]++
-    console.log(votes)
+    const newVote = [...vote]
+    newVote[selected] += 1
+    updateVote(newVote)
   }
 
  
  
   return (
     <div>
-      
-      {anecdotes[selected]} 
+      <Title text={"Anecdote of the day"}/>
+      <Anecdote anecdote={anecdotes[selected]} vote={vote[selected  ]} />
+       
       <br></br>
-      has {votes[selected].toString()} votes
+      <Button handleEvent={handleVote} text={"vote"}/>
+      <Button handleEvent={randomNumber} text={"next anecdote"} />
+
       <br></br>
-      <button onClick={handleVote}>vote</button>
-      <button onClick={randomNumber}>next anecdote</button>
+      <Title text={"Anecdote with most votes"}/>
+      <Anecdote anecdote={anecdotes[mostVotesInd]} vote={mostVotes} />
     </div>
   )
 }
