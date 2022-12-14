@@ -14,8 +14,11 @@ const update = (id, newPerson) =>
     return res.data;
   });
 
-const remove = (id) =>
-  axios.delete(`${baseUrl}/${id}`).then((response) => console.log(response));
+const remove = (id, name) =>
+  axios
+    .delete(`${baseUrl}/${id}`)
+    .then((response) => response)
+  
 
 const personService = {
   getAll,
