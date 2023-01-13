@@ -36,7 +36,7 @@ app.use(express.static('build'))
 
 //for adding entry through MongoDB
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   // if (!request.body.name) return response.status(400).send(`Name field is invalid`).end()
   // if (!request.body.number) return response.status(400).send(`Phone number invalid`).end()
 
@@ -65,17 +65,26 @@ app.post('/api/persons', (request, response) => {
 
   person.save().then(savedPerson => {
     response.json(savedPerson)
+  }).catch(error => {
+    // console.log("ERROR", error)
+    // next(error)
+
+    response.status(400).json(error.message)
+    next(error)
   })
 
 
 })
 
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons', (request, response, next) => {
   // response.json(persons)
 
   Person.find({}).then(people => {
+    console.log(people)
     response.json(people)
+  }).catch(error => {
+    next(error)
   })
 })
 
@@ -86,23 +95,46 @@ app.get('/info', (request, response) => {
     `)
 })
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
   // const id = Number(request.params.id)
   // const person = persons.find(person => person.id === id)
 
   // person ? response.json(person) : response.status(404).end()
 
-  Person.findById(request.params.id).then(person => response.json(person))
+  Person.findById(request.params.id).then(person => response.json(person)).catch(error => next(error))
 })
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   // const id = Number(request.params.id)
   // persons = persons.filter(person => person.id !== id)
 
-  Person.deleteByOne({ id: request.params.id })
+  Person.findByIdAndDelete(request.params.id).then(result => {
+    response.send(204).end()
+  }).catch(error => {
+    next(error)
+  })
 
-  response.send(204).end()
+})
 
+app.put('/api/persons/:id', (request, response, next) => {
+  const body = request.body
+  console.log(body)
+
+
+  const person = {
+    name: body.name,
+    number: body.number
+  }
+
+  const id = String(request.params.id)
+
+  Person.findByIdAndUpdate(id, person, { new: true }).then(updatedPerson => {
+    console.log(updatedPerson)
+    response.json(updatedPerson)
+  }).catch(error => {
+    next(error)
+  }
+  )
 })
 
 const unknownEndPoint = (request, response) => {
@@ -111,7 +143,20 @@ const unknownEndPoint = (request, response) => {
 
 app.use(unknownEndPoint)
 
-const PORT = process.env.PORT || 8080
+const errorHandler = (error, request, response, next) => {
+
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+
+
+  next(error)
+}
+
+app.use(errorHandler)
+
+const PORT = process.env.PORT || 3001
 
 app.listen(PORT, () => {
   console.log(`App is running on port # ${PORT}`)

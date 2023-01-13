@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import personService from "./services/persons";
 
-const DeleteNotification = ({message}) => {
+const DeleteNotification = ({ message }) => {
   if (message === null) return null;
 
   const deleteStyle = {
@@ -14,7 +14,7 @@ const DeleteNotification = ({message}) => {
   };
 
   return <p style={deleteStyle}>{message}</p>
-  
+
 }
 
 const AddedNotification = ({ name }) => {
@@ -34,7 +34,7 @@ const AddedNotification = ({ name }) => {
 const DeleteButton = ({ person, id, persons, setPersons, handleDeleteError }) => {
   const deletePerson = (id) => {
     if (window.confirm(`Delete ${person.name} ?`)) {
-      personService.remove(id, person.name).catch(error => handleDeleteError(person.name));
+      personService.remove(id, person.name).catch(error => handleDeleteError(`${person.name} has already been removed`));
       setPersons(persons.filter((person) => person.id !== id));
     }
   };
@@ -138,6 +138,9 @@ const App = () => {
       console.log(added);
 
       setTimeout(() => setAdd(null), 5000);
+    }).catch(error => {
+      console.log(error.response.data)
+      handleDeleteError(error.response.data)
     });
   };
 
@@ -145,14 +148,14 @@ const App = () => {
 
   const handleNumChange = (event) => setNewNum(event.target.value);
 
-  const handleDeleteError = (name) => {
-    setDeleteError(`${name} has already been removed`)
+  const handleDeleteError = (message) => {
+    setDeleteError(`${message}`)
 
     setTimeout(
       () => {
         setDeleteError(null)
       }
-    , 5000)
+      , 5000)
   }
 
   const handleFilterNameChange = (event) =>
@@ -163,7 +166,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <AddedNotification name={added} />
       <DeleteNotification message={deleteError} />
-    
+
       <Filter
         filterName={filterName}
         handleFilterNameChange={handleFilterNameChange}
@@ -184,10 +187,10 @@ const App = () => {
           filterName === ""
             ? persons
             : persons.filter((person) =>
-                person.name
-                  .toLocaleLowerCase()
-                  .includes(filterName.toLocaleLowerCase())
-              )
+              person.name
+                .toLocaleLowerCase()
+                .includes(filterName.toLocaleLowerCase())
+            )
         }
       />
     </div>
