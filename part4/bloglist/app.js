@@ -4,6 +4,7 @@ require("express-async-errors");
 const app = express();
 const cors = require("cors");
 const blogRouter = require("./controllers/blogs");
+const userRouter = require("./controllers/users");
 const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
 const mongoose = require("mongoose");
@@ -28,6 +29,8 @@ app.use(cors()); //to enable cross origin policy
 app.use(express.json()); // this converts JS objects to JSON
 app.use(middleware.requestLogger); //this custom middleware is gonna tell us which method used
 app.use("/api/blogs", blogRouter); //the first part defines path. basically we didn't have to redifine paths again and again in the controller
+
+app.use("/api/users", userRouter);
 
 app.use(middleware.unknownEndpoint); //if we have an unknown endpoint, this will help determine
 app.use(middleware.errorHandler); //for handeling errors :)
