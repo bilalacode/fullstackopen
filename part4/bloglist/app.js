@@ -3,6 +3,7 @@ const express = require("express");
 require("express-async-errors");
 const app = express();
 const cors = require("cors");
+const loginRouter = require("./controllers/login");
 const blogRouter = require("./controllers/blogs");
 const userRouter = require("./controllers/users");
 const middleware = require("./utils/middleware");
@@ -28,7 +29,10 @@ app.use(cors()); //to enable cross origin policy
 //app.use(express.static('build')) <-- not using this because no build for FE
 app.use(express.json()); // this converts JS objects to JSON
 app.use(middleware.requestLogger); //this custom middleware is gonna tell us which method used
-app.use("/api/blogs", blogRouter); //the first part defines path. basically we didn't have to redifine paths again and again in the controller
+app.use(middleware.tokenChecker);
+app.use("/api/login", loginRouter);
+
+app.use("/api/blogs", middleware.userExtractor, blogRouter); //the first part defines path. basically we didn't have to redifine paths again and again in the controller
 
 app.use("/api/users", userRouter);
 

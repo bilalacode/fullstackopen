@@ -1,106 +1,112 @@
+const mongoose = require("mongoose");
+const User = require("../models/user");
+const supertest = require("supertest");
+const app = require("../app");
+const api = supertest(app);
+const Blog = require("../models/blog");
 const listApiHelper = require("../utils/list_api_helper");
 
-const mongoose = require("mongoose");
-const supertest = require("supertest");
-const { response } = require("../app");
-
-const app = require("../app");
-const blog = require("../models/blog");
-
-const api = supertest(app);
-
-const Blog = require("../models/blog");
-
-const clearBlogsAndAddTwo = async () => {
+beforeAll(async () => {
   await Blog.deleteMany({});
-
-  // let noteObj = new Blog(listApiHelper.initialBlogs[0]);
-  // await noteObj.save();
-
-  // noteObj = new Blog(listApiHelper.initialBlogs[1]);
-  // noteObj.save();
-
-  const blogObj = listApiHelper.initialBlogs.map((blog) => new Blog(blog));
-  const promiseArray = blogObj.map((blog) => blog.save());
-  await Promise.all(promiseArray);
-};
-
-beforeEach(async () => {
-  await clearBlogsAndAddTwo();
+  await User.deleteMany({});
 });
 
-test("Blogs returned as JSON", async () => {
-  await api
-    .get("/api/blogs")
-    .expect(200)
-    .expect("Content-Type", /application\/json/);
-});
+describe("Api test for sign up, login, and creation of blog", () => {
+  const testInfo = {};
 
-test("All blogs are returned", async () => {
-  const response = await api.get("/api/blogs");
-  const blog = response;
-  expect(blog.body).toHaveLength(listApiHelper.initialBlogs.length);
-});
+  test("A new user is created", async () => {
+    const userForTest = {
+      name: "userfortest",
+      username: "userfortest",
+      password: "userfortest",
+    };
+    const result = await api.post("/api/users").send(userForTest).expect(201);
 
-test("Blog generate unique id", async () => {
-  const response = await listApiHelper.uniqueId();
-  expect(response).toBeDefined();
-});
-
-test("A new blog is added", async () => {
-  //  await clearBlogsAndAddTwo()
-
-  const newBlog = {
-    title: "Helloooo",
-    author: "anon",
-    url: "test.com",
-    likes: 120,
-  };
-
-  await api
-    .post("/api/blogs")
-    .send(newBlog)
-    .expect(201)
-    .expect("Content-Type", /application\/json/);
-
-  const blogOnEnd = await listApiHelper.blogsInDb();
-  expect(blogOnEnd).toHaveLength(listApiHelper.initialBlogs.length + 1);
-});
-
-test("Blog added with no likes adds 0", async () => {
-  const likes = await listApiHelper.blogWithNoLikes();
-
-  expect(likes).toBe(0);
-});
-
-test("Blog new is missing", async () => {
-  const noNameBlog = new Blog({
-    url: "test.com",
-    likes: 1000,
+    testInfo.id = result.body.id;
+    expect(result.body.name).toBe("userfortest");
   });
 
-  await api.post("/api/blogs").send(noNameBlog).expect(400);
-});
+  test("User is able to login and get token", async () => {
+    const loginUser = {
+      username: "userfortest",
+      password: "userfortest",
+    };
 
-test("Deleting a specific blog and return a 204", async () => {
-  const blogAtStart = await listApiHelper.blogsInDb();
-  const blogToDelete = blogAtStart[0];
+    const result = await api.post("/api/login").send(loginUser).expect(200);
+    expect(result.body.name).toBe("userfortest");
+    testInfo.token = `Bearer ${result.body.token}`;
+  });
 
-  await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
-  const blogAtTheEnd = await listApiHelper.blogsInDb();
-  expect(blogAtTheEnd).toHaveLength(listApiHelper.initialBlogs.length - 1);
-  const blogsAfterDelete = blogAtTheEnd.map((blog) => blog.title);
+  test("Fails to login if incorrect password", async () => {
+    const wrongUser = {
+      username: "userfortest",
+      password: "wrong",
+    };
 
-  expect(blogsAfterDelete).not.toContain(blogToDelete.title);
-});
+    await api.post("/api/login").send(wrongUser).expect(401);
+  });
 
-test("Update the number of likes in the first blog", async () => {
-  await clearBlogsAndAddTwo();
-  const blogAtStart = await listApiHelper.blogsInDb();
-  const blogToUpdate = blogAtStart[0];
-  const response = await listApiHelper.updateLikes(blogToUpdate, 1234);
+  test("Blogs can be added", async () => {
+    await api
+      .post("/api/blogs")
+      .send(listApiHelper.initialBlogs[0])
+      .set("Authorization", testInfo.token)
+      .expect(201);
 
-  expect(response.likes).toBe(1234);
+    await api
+      .post("/api/blogs")
+      .send(listApiHelper.initialBlogs[1])
+      .set("Authorization", testInfo.token)
+      .expect(201);
+
+    const blogsInDb = await listApiHelper.blogsInDb();
+
+    expect(blogsInDb).toHaveLength(listApiHelper.initialBlogs.length);
+  });
+
+  test("Blog with 0 like can be added", async () => {
+    const result = await api
+      .post("/api/blogs")
+      .send(listApiHelper.blogWithNoLikes)
+      .set("Authorization", testInfo.token);
+
+    expect(result.body.likes).toBe(0);
+  });
+
+  test("Blog new is missing", async () => {
+    const noNameBlog = new Blog({
+      url: "test.com",
+      likes: 1000,
+    });
+
+    await api
+      .post("/api/blogs")
+      .send(noNameBlog)
+      .expect(400)
+      .set("Authorization", testInfo.token);
+  });
+
+  test("Deleting a specific blog and return a 204", async () => {
+    const blogAtStart = await listApiHelper.blogsInDb();
+    const blogToDelete = blogAtStart[0];
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+      .set("Authorization", testInfo.token);
+    const blogAtTheEnd = await listApiHelper.blogsInDb();
+    expect(blogAtTheEnd).toHaveLength(blogAtStart.length - 1);
+    const blogsAfterDelete = blogAtTheEnd.map((blog) => blog.title);
+
+    expect(blogsAfterDelete).not.toContain(blogToDelete.title);
+  });
+  test("Update the number of likes in the first blog", async () => {
+    const blogAtStart = await listApiHelper.blogsInDb();
+    const blogToUpdate = blogAtStart[0];
+    const response = await listApiHelper.updateLikes(blogToUpdate, 1234);
+
+    expect(response.likes).toBe(1234);
+  });
 });
 
 afterAll(async () => {

@@ -34,16 +34,10 @@ const blogsInDb = async () => {
   return blogs.map((blog) => blog.toJSON());
 };
 
-const blogWithNoLikes = async () => {
-  const blog = new Blog({
-    title: "Blog with no likes",
-    author: "anon",
-    url: "blog.com",
-  });
-
-  await blog.save();
-
-  return blog.likes;
+const blogWithNoLikes = {
+  title: "Blog with no likes",
+  author: "anon",
+  url: "blog.com",
 };
 
 const updateLikes = async (note, numberOfLikes) => {
