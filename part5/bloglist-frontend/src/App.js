@@ -101,14 +101,12 @@ const App = () => {
       setMessageSuccess("A blog has been added");
       setTimeout(() => setMessageSuccess(null), 5000);
     } catch (error) {
-      console.log(error);
       setErrorMessage(JSON.stringify(error.message));
       setTimeout(() => setErrorMessage(null), 5000);
     }
   };
   const handleLogin = async (event) => {
     event.preventDefault();
-    // console.log("username", userName, "password", password);
     try {
       const userToLogin = await loginService.login({
         username: userName,
@@ -123,12 +121,15 @@ const App = () => {
       blogService.setToken(userToLogin.token);
 
       setMessageSuccess("User logged in");
+
       setTimeout(() => setMessageSuccess(null), 5000);
 
       // console.log(blogs)
       // console.log(userToLogin.token);
     } catch (error) {
-      setErrorMessage(JSON.stringify(error));
+      console.log(error.message);
+
+      setErrorMessage("wrong username or password");
       setTimeout(() => setErrorMessage(null), 5000);
     }
   };
@@ -148,11 +149,16 @@ const App = () => {
     );
   } else {
     return (
-      <LoginForm
-        setUserName={setUserName}
-        setPassword={setPassword}
-        handleLogin={handleLogin}
-      />
+      <>
+        {" "}
+        <SuccessMessage message={messageSuccess} />
+        <ErrorMessage errorMessage={errorMessage} />
+        <LoginForm
+          setUserName={setUserName}
+          setPassword={setPassword}
+          handleLogin={handleLogin}
+        />
+      </>
     );
   }
 };
