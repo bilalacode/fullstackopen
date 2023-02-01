@@ -4,6 +4,40 @@ import loginService from "./services/loginService";
 import LoginForm from "./components/LoginForm";
 import Display from "./components/Display";
 
+const SuccessMessage = ({ message }) => {
+  if (message !== null) {
+    return (
+      <p
+        style={{
+          color: "green",
+          background: "light-grey",
+          fontSize: "50px",
+          border: "5px solid #2AA400",
+        }}
+      >
+        {message}
+      </p>
+    );
+  }
+};
+
+const ErrorMessage = ({ errorMessage }) => {
+  if (errorMessage !== null) {
+    return (
+      <p
+        style={{
+          color: "red",
+          background: "light-grey",
+          fontSize: "50px",
+          border: "5px solid red",
+        }}
+      >
+        {errorMessage}
+      </p>
+    );
+  }
+};
+
 const Create = ({ blogNew, setBlogNew, createBlog }) => {
   return (
     <>
@@ -45,6 +79,8 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [blogNew, setBlogNew] = useState({ title: "", author: "", url: "" });
+  const [messageSuccess, setMessageSuccess] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     const userJson = window.localStorage.getItem("blogLoginUser");
@@ -57,13 +93,17 @@ const App = () => {
 
   const createBlog = async (event) => {
     event.preventDefault();
-    console.log(blogNew);
+    // console.log(blogNew);
     try {
       const response = await blogService.postABlog(blogNew);
       setBlogNew({ title: "", author: "", url: "" });
       setBlogs(blogs.concat(response));
+      setMessageSuccess("A blog has been added");
+      setTimeout(() => setMessageSuccess(null), 5000);
     } catch (error) {
       console.log(error);
+      setErrorMessage(JSON.stringify(error.message));
+      setTimeout(() => setErrorMessage(null), 5000);
     }
   };
   const handleLogin = async (event) => {
@@ -82,16 +122,22 @@ const App = () => {
       setPassword("");
       blogService.setToken(userToLogin.token);
 
+      setMessageSuccess("User logged in");
+      setTimeout(() => setMessageSuccess(null), 5000);
+
       // console.log(blogs)
       // console.log(userToLogin.token);
-    } catch (exception) {
-      console.log("this error", exception);
+    } catch (error) {
+      setErrorMessage(JSON.stringify(error));
+      setTimeout(() => setErrorMessage(null), 5000);
     }
   };
 
   if (user !== null) {
     return (
       <>
+        <SuccessMessage message={messageSuccess} />
+        <ErrorMessage errorMessage={errorMessage} />
         <Create
           blogNew={blogNew}
           setBlogNew={setBlogNew}
