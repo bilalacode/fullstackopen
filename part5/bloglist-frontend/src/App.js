@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import blogService from "./services/blogs";
 import loginService from "./services/loginService";
 import LoginForm from "./components/LoginForm";
 import Display from "./components/Display";
 import Togglable from "./components/Togglable";
+import CreateBlog from "./components/CreateBlog";
 
 const SuccessMessage = ({ message }) => {
   if (message !== null) {
@@ -39,40 +40,7 @@ const ErrorMessage = ({ errorMessage }) => {
   }
 };
 
-const Create = ({ blogNew, setBlogNew, createBlog }) => {
-  return (
-    <>
-      <h2>create</h2>
-      <form onSubmit={createBlog}>
-        title:{" "}
-        <input
-          value={blogNew.title}
-          onChange={({ target }) =>
-            setBlogNew({ ...blogNew, title: target.value })
-          }
-        />
-        <br></br>
-        author:{" "}
-        <input
-          value={blogNew.author}
-          onChange={({ target }) =>
-            setBlogNew({ ...blogNew, author: target.value })
-          }
-        />
-        <br></br>
-        url:{" "}
-        <input
-          value={blogNew.url}
-          onChange={({ target }) =>
-            setBlogNew({ ...blogNew, url: target.value })
-          }
-        />
-        <br></br>
-        <button type={"submit"}>create</button>
-      </form>
-    </>
-  );
-};
+
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -82,6 +50,7 @@ const App = () => {
   const [blogNew, setBlogNew] = useState({ title: "", author: "", url: "" });
   const [messageSuccess, setMessageSuccess] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const blogFormRed = useRef()
 
   useEffect(() => {
     const userJson = window.localStorage.getItem("blogLoginUser");
@@ -97,6 +66,7 @@ const App = () => {
     // console.log(blogNew);
     try {
       const response = await blogService.postABlog(blogNew);
+      blogFormRed.current.toggleVisibility()
       setBlogNew({ title: "", author: "", url: "" });
       setBlogs(blogs.concat(response));
       setMessageSuccess("A blog has been added");
@@ -140,8 +110,8 @@ const App = () => {
       <>
         <SuccessMessage message={messageSuccess} />
         <ErrorMessage errorMessage={errorMessage} />
-        <Togglable buttonLabel="new blog">
-        <Create
+        <Togglable buttonLabel="new blog" ref={blogFormRed}>
+        <CreateBlog
           blogNew={blogNew}
           setBlogNew={setBlogNew}
           createBlog={createBlog}

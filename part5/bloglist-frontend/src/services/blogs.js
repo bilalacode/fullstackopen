@@ -16,6 +16,7 @@ const getAll = async () => {
 };
 
 const postABlog = async (blog) => {
+  
   const res = await axios.post(baseUrl, blog, config);
   console.log(res.data)
   return res.data;
