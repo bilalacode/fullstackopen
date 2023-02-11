@@ -3,6 +3,7 @@ import blogService from "./services/blogs";
 import loginService from "./services/loginService";
 import LoginForm from "./components/LoginForm";
 import Display from "./components/Display";
+import Togglable from "./components/Togglable";
 
 const SuccessMessage = ({ message }) => {
   if (message !== null) {
@@ -139,11 +140,13 @@ const App = () => {
       <>
         <SuccessMessage message={messageSuccess} />
         <ErrorMessage errorMessage={errorMessage} />
+        <Togglable buttonLabel="new blog">
         <Create
           blogNew={blogNew}
           setBlogNew={setBlogNew}
           createBlog={createBlog}
         />
+        </Togglable>
         <Display setBlogs={setBlogs} blogs={blogs} user={user.name} />
       </>
     );
@@ -153,11 +156,15 @@ const App = () => {
         {" "}
         <SuccessMessage message={messageSuccess} />
         <ErrorMessage errorMessage={errorMessage} />
+
+        <Togglable buttonLabel="login">
         <LoginForm
           setUserName={setUserName}
           setPassword={setPassword}
           handleLogin={handleLogin}
         />
+        </Togglable>
+       
       </>
     );
   }
