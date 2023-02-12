@@ -7,10 +7,8 @@ const SECRET = require('../utils/config').SECRET
 
 loginRouter.post("/", async (request, response) => {
   const { username, password } = request.body;
-    // console.log('username', username)
-    // console.log('password', password)
+
   const user = await User.findOne({ username });
-//   console.log(request.body)
   const passwordCorrect =
     user === null ? false : await bcrypt.compare(password, user.passwordHash);
 
