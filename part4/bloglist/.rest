@@ -1,15 +1,24 @@
-Post http://localhost:3003/api/blogs/
-content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbHBtZSIsImlkIjoiNjNkNDYzY2VlYmE5ODA5NWUwY2M5YmJlIiwiaWF0IjoxNjc0ODY3NjI3fQ.zZadbJynZZeETMCcg-2SQQ4o52M2b3WqnBfOmo2aBJo
+# Post http://localhost:3003/api/blogs/
+# content-type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbHBtZSIsImlkIjoiNjNkNDYzY2VlYmE5ODA5NWUwY2M5YmJlIiwiaWF0IjoxNjc0ODY3NjI3fQ.zZadbJynZZeETMCcg-2SQQ4o52M2b3WqnBfOmo2aBJo
 
 
-{
-    "title": "hello6",
-    "author": "hello6",
-    "url": "url.com",
-    "likes": 999999
-}
+# {
+#     "title": "hello6",
+#     "author": "hello6",
+#     "url": "url.com",
+#     "likes": 999999
+# }
 
 # DELETE http://localhost:3003/api/blogs/63d483252f49168e7ae2c30c
 # content-type: application/json
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbHBtZSIsImlkIjoiNjNkNDYzY2VlYmE5ODA5NWUwY2M5YmJlIiwiaWF0IjoxNjc0ODY3NjI3fQ.zZadbJynZZeETMCcg-2SQQ4o52M2b3WqnBfOmo2aBJo
+
+POST  http://localhost:3003/api/users
+content-type: application/json
+
+{
+    "username": "ahmed",
+    "password" : "ahmed",
+    "name": "ahmed"
+}
