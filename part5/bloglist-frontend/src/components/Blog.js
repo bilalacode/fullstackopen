@@ -1,12 +1,11 @@
 import { useState } from 'react'
-import blogService from '../services/blogs'
+// import blogService from '../services/blogs'
 
 
-const ExpandView = ({ blog }) => {
-
+const Blog = ({ blog, updateLikes, deleteBlog }) => {
 
   const [visible, setVisible] = useState(false)
-  const [likes, setLikes] = useState(blog.likes)
+  // const [likes, setLikes] = useState(blog.likes)
 
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
@@ -14,28 +13,28 @@ const ExpandView = ({ blog }) => {
 
   const toggleVisibility = () => setVisible(!visible)
 
-  const deleteBlog = async () => {
-    if(window.confirm()){
-      await blogService.deleteBlog(blog.id)
-      window.location.reload()
+  // const deleteBlog = async () => {
+  //   if(window.confirm()){
+  //     await blogService.deleteBlog(blog.id)
+  //     window.location.reload()
 
-    }
-  }
+  //   }
+  // }
 
-  const updateLikes = async () => {
+  // const updateLikes = async () => {
 
-    const newBlog = {
-      user: blog.user._id,
-      likes: likes + 1,
-      author: blog.author,
-      title: blog.title,
-      url: blog.url,
-      id: blog.id
-    }
-    const result = await blogService.updateLikes(newBlog)
-    setLikes(result.likes)
+  //   const newBlog = {
+  //     user: blog.user._id,
+  //     likes: likes + 1,
+  //     author: blog.author,
+  //     title: blog.title,
+  //     url: blog.url,
+  //     id: blog.id
+  //   }
+  //   const result = await blogService.updateLikes(newBlog)
+  //   setLikes(result.likes)
 
-  }
+  // }
 
   const blogStyle = {
     paddingTop: 10,
@@ -46,29 +45,29 @@ const ExpandView = ({ blog }) => {
   }
 
   return(
-    <div style={blogStyle}>
-      <div style={hideWhenVisible}>
+    <div style={blogStyle} className="blog">
+      <div style={hideWhenVisible} className="simpleView">
         {blog.title} <button onClick={toggleVisibility}>view</button>
       </div>
-      <div style={showWhenVisibile}>
+      <div style={showWhenVisibile} className="detailedView">
         <div>
           {blog.title} <button onClick={toggleVisibility}>hide</button>
           <br></br>
           {blog.url}
           <br></br>
-        likes {likes} <button onClick={() => updateLikes()}>like</button>
+        likes {blog.likes} <button onClick={() => updateLikes(blog.id, blog.likes)}>like</button>
           <br></br>
           {blog.author}
           <br></br>
-          <button onClick={() => deleteBlog()}>remove</button>
+          <button onClick={() => deleteBlog(blog.id)}>remove</button>
         </div>
       </div>
     </div>
   )
 }
 
-const Blog = ({ blog }) => (
-  <ExpandView blog ={blog} />
-)
+// const Blog = ({ blog }) => (
+//   <ExpandView blog ={blog} />
+// )
 
 export default Blog

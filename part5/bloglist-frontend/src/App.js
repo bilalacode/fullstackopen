@@ -4,7 +4,9 @@ import loginService from './services/loginService'
 import LoginForm from './components/LoginForm'
 import Display from './components/Display'
 import Togglable from './components/Togglable'
-import CreateBlog from './components/CreateBlog'
+// import CreateBlog from './components/CreateBlog'
+import BlogFrom from './components/BlogForm'
+
 
 const SuccessMessage = ({ message }) => {
   if (message !== null) {
@@ -47,9 +49,10 @@ const App = () => {
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [blogNew, setBlogNew] = useState({ title: '', author: '', url: '' })
+  // const [blogNew, setBlogNew] = useState({ title: '', author: '', url: '' })
   const [messageSuccess, setMessageSuccess] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [updateDisplay, setUpdateDisplay] = useState(null)
   const blogFormRed = useRef()
 
   useEffect(() => {
@@ -61,21 +64,39 @@ const App = () => {
     }
   }, [])
 
-  const createBlog = async (event) => {
-    event.preventDefault()
-    // console.log(blogNew);
+
+
+  // const createBlog = async (event) => {
+  //   event.preventDefault()
+  //   // console.log(blogNew);
+  //   try {
+  //     const response = await blogService.postABlog(blogNew)
+  //     blogFormRed.current.toggleVisibility()
+  //     setBlogNew({ title: '', author: '', url: '' })
+  //     setBlogs(blogs.concat(response))
+  //     setMessageSuccess('A blog has been added')
+  //     setTimeout(() => setMessageSuccess(null), 5000)
+  //   } catch (error) {
+  //     setErrorMessage(JSON.stringify(error.message))
+  //     setTimeout(() => setErrorMessage(null), 5000)
+  //   }
+  // }
+
+  const addBlogs = async (addBlogs) => {
     try {
-      const response = await blogService.postABlog(blogNew)
+      const response = await blogService.postABlog(addBlogs)
       blogFormRed.current.toggleVisibility()
-      setBlogNew({ title: '', author: '', url: '' })
       setBlogs(blogs.concat(response))
       setMessageSuccess('A blog has been added')
       setTimeout(() => setMessageSuccess(null), 5000)
-    } catch (error) {
+    }catch (error) {
       setErrorMessage(JSON.stringify(error.message))
       setTimeout(() => setErrorMessage(null), 5000)
     }
   }
+
+
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -105,19 +126,43 @@ const App = () => {
     }
   }
 
+
+
+
+
+  const updateLikes = async (id, likes) => {
+    console.log(id, likes)
+    await blogService.updateLikes(id, likes)
+    setUpdateDisplay(Math.floor(Math.random()*100))
+  }
+
+  const deleteBlog = async (id) => {
+    await blogService.deleteBlog(id)
+    setUpdateDisplay(Math.floor(Math.random()*100))
+  }
+
+
+
+
+
+
+
+
   if (user !== null) {
     return (
       <>
         <SuccessMessage message={messageSuccess} />
         <ErrorMessage errorMessage={errorMessage} />
         <Togglable buttonLabel="new blog" ref={blogFormRed}>
-          <CreateBlog
+          {/* <CreateBlog
             blogNew={blogNew}
             setBlogNew={setBlogNew}
             createBlog={createBlog}
-          />
+          /> */}
+
+          <BlogFrom addBlogs={addBlogs} />
         </Togglable>
-        <Display setBlogs={setBlogs} blogs={blogs} user={user.name} />
+        <Display setBlogs={setBlogs} blogs={blogs} user={user.name} updateLikes={updateLikes} deleteBlog={deleteBlog} updateDisplay={updateDisplay} />
       </>
     )
   } else {

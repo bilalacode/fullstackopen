@@ -3,14 +3,13 @@ import blogService from '../services/blogs.js'
 import { useEffect } from 'react'
 
 
-const Display = ({ setBlogs, blogs, user }) => {
+const Display = ({ setBlogs, blogs, user, updateLikes, deleteBlog, updateDisplay }) => {
   useEffect(() => {
     blogService.getAll().then((blogs) => {
       const sortedBlog = blogs.sort((a, b) => b.likes - a.likes)
       setBlogs(sortedBlog)
-      // console.log(blogs)
     })
-  }, [])
+  }, [updateDisplay])
   return (
     <>
       <h2>blogs</h2>
@@ -24,7 +23,7 @@ const Display = ({ setBlogs, blogs, user }) => {
         </button>
       </p>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} updateLikes={updateLikes} deleteBlog={deleteBlog}/>
       ))}
     </>
   )
