@@ -2,3 +2,4 @@ node_modules
 build
 .eslintrc.js
 ./src/components/tests/Blog.test.js
+cypress
