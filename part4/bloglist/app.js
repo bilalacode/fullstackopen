@@ -36,6 +36,11 @@ app.use('/api/blogs', middleware.userExtractor, blogRouter) //the first part def
 
 app.use('/api/users', userRouter)
 
+if(process.env.NODE_ENV == "test"){
+  const testingRounter = require('./controllers/testing')
+  app.use('/api/testing', testingRounter)
+}
+
 app.use(middleware.unknownEndpoint) //if we have an unknown endpoint, this will help determine
 app.use(middleware.errorHandler) //for handeling errors :)
 

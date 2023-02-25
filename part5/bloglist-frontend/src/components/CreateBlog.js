@@ -30,7 +30,7 @@ const CreateBlog = ({ blogNew, setBlogNew, createBlog }) => {
           }
         />
         <br></br>
-        <button type={'submit'}>create</button>
+        <button className={"createbutton"} type={'submit'}>create</button>
       </form>
     </div>
   )
