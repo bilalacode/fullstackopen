@@ -1,10 +1,13 @@
-import Anecdotes from "./components/Anecdotes"
-
+import Anecdotes from "./components/Anecdotes";
+import AnecdoteForm from "./components/AnecdoteForm";
 
 const App = () => {
+  return (
+    <>
+      <Anecdotes />
+      <AnecdoteForm />
+    </>
+  );
+};
 
-  return <Anecdotes />
-  
-}
-
-export default App
+export default App;
