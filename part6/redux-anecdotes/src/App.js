@@ -4,6 +4,7 @@ import AnecdoteForm from "./components/AnecdoteForm";
 const App = () => {
   return (
     <>
+      
       <Anecdotes />
       <AnecdoteForm />
     </>
