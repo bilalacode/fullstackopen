@@ -1,11 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
-import { vote } from "../reducers/anecdoteReducer";
 import FilterForm from "./FilterForm";
+import { createNotification, hideNotification } from "../reducers/notificationReducer";
 
 const Anecdotes = () => {
   const anecdotes = useSelector((state) => {
-    // console.log("Here are an", state.anecdotes)
-    // return state.anecdotes
+
     if(state.filter === ""){
       return state.anecdotes
     }
@@ -13,23 +12,28 @@ const Anecdotes = () => {
     return state.anecdotes.filter(x => x.content.includes(state.filter))
   });
   const dispatch = useDispatch();
+  const handleClick = (anecdote) => {
+    dispatch({type: 'anecdote/addVote', payload: anecdote.id})
+    dispatch(createNotification(`You votes ${anecdote.content}`));
+    
+    setTimeout(() => dispatch(hideNotification()), 5000)
 
-  //   const vote = (id) => {
-  //     console.log("vote", id);
-  //   };
+  }
+
 
   return (
     <div>
       <h2>Anecdotes</h2>
       <FilterForm />
       {anecdotes
+      .slice()
         .sort((a, b) => b.votes - a.votes)
         .map((anecdote) => (
           <div key={anecdote.id}>
             <div>{anecdote.content}</div>
             <div>
               has {anecdote.votes}
-              <button onClick={() => dispatch(vote(anecdote.id))}>vote</button>
+              <button onClick={() => handleClick(anecdote)}>vote</button>
             </div>
           </div>
         ))}
