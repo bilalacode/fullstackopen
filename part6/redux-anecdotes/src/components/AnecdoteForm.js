@@ -1,9 +1,11 @@
 import { useDispatch } from "react-redux";
 import { createAnecdote } from "../reducers/anecdoteReducer";
-import { createNotification, hideNotification } from "../reducers/notificationReducer";
+import {
+  createNotification,
+  hideNotification,
+} from "../reducers/notificationReducer";
 
 const AnecdoteForm = () => {
-//   const anecdotes = useSelector((state) => state);
   const dispatch = useDispatch();
   const addAnecdote = (event) => {
     event.preventDefault();
@@ -11,8 +13,8 @@ const AnecdoteForm = () => {
     event.target.anecdote.value = "";
     dispatch(createAnecdote(content));
     dispatch(createNotification(`${content} has been added.`));
-    
-    setTimeout(() => dispatch(hideNotification()), 5000)
+
+    setTimeout(() => dispatch(hideNotification()), 5000);
   };
   return (
     <>

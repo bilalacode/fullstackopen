@@ -25,15 +25,14 @@ const anecdoteSlice = createSlice({
   name: "anecdote",
   initialState,
   reducers: {
-    createAnecdote(state, action){
-      console.log(initialState, "initial state")
-      console.log(action.payload, "payload")
-      console.log(current(state), "state")
-      const newAnecdote = asObject(action.payload)
-      return [...state, newAnecdote]
-
+    createAnecdote(state, action) {
+      console.log(initialState, "initial state");
+      console.log(action.payload, "payload");
+      console.log(current(state), "state");
+      const newAnecdote = asObject(action.payload);
+      return [...state, newAnecdote];
     },
-    addVote(state, action){
+    addVote(state, action) {
       const id = action.payload;
       const voteToAdd = state.find((n) => n.id === id);
       const votes = voteToAdd.votes;
@@ -45,12 +44,12 @@ const anecdoteSlice = createSlice({
         anecdote.id !== id ? anecdote : addedVote
       );
       return updatedState;
-    }
-  }
-})
+    },
+  },
+});
 
-export const {createAnecdote, addVote} = anecdoteSlice.actions
-export default anecdoteSlice.reducer
+export const { createAnecdote, addVote } = anecdoteSlice.actions;
+export default anecdoteSlice.reducer;
 
 // const anecdoteReducer = (state = initialState, action) => {
 //   console.log("state now: ", state);

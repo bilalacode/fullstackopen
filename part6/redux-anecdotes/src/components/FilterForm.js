@@ -3,13 +3,10 @@ import { filterChange } from "../reducers/filterReducer";
 
 const FilterForm = () => {
   const defaultVal = useSelector((state = "") => state.filter);
-  // console.log(defaultVal, "default val")
-  // const defaultVal = useSelector((state) => state.filter) || "";
 
   const dispatch = useDispatch();
   const filter = (event) => {
     const val = event.target.value;
-    // event.target.value = "";
 
     dispatch(filterChange(val));
   };
