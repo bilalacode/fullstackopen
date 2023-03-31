@@ -1,19 +1,6 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import anecdotesService from "../components/services/anecdotes";
-// import {
-//   createNotification,
-//   hideNotification,
-// } from "../reducers/notificationReducer";
 import { setNotification } from "../reducers/notificationReducer";
-
-// const anecdotesAtStart = [
-//   "If it hurts, do it more often",
-//   "Adding manpower to a late software project makes it later!",
-//   "The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
-//   "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
-//   "Premature optimization is the root of all evil.",
-//   "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
-// ];
 
 const getId = () => (100000 * Math.random()).toFixed(0);
 
@@ -25,7 +12,6 @@ const asObject = (anecdote) => {
   };
 };
 
-// const initialState = anecdotesAtStart.map(asObject);
 const initialState = [];
 const anecdoteSlice = createSlice({
   name: "anecdote",
@@ -65,23 +51,20 @@ export const initializeAnecdotes = () => {
 };
 
 export const addNewVote = (anecdote) => {
-  return async dispatch => {
-    // console.log(anecdote)
-    const updatedAnecdote = await anecdotesService.upvote(anecdote)
-    dispatch(addVote(updatedAnecdote.id))
-    dispatch(setNotification(`${updatedAnecdote.content} has been upvoted.`, 10));
-  }
-}
+  return async (dispatch) => {
+    const updatedAnecdote = await anecdotesService.upvote(anecdote);
+    dispatch(addVote(updatedAnecdote.id));
+    dispatch(
+      setNotification(`${updatedAnecdote.content} has been upvoted.`, 10)
+    );
+  };
+};
 
 export const createNew = (content) => {
   return async (dispatch) => {
     const newAnedcote = await anecdotesService.createNew(content);
     dispatch(createAnecdote(newAnedcote.content));
-    // dispatch(createNotification(`${newAnedcote.content} has been added.`, 10));
-    // dispatch(createNotification({message: `${newAnedcote.content} has been added.`, duration: 10}));
     dispatch(setNotification(`${newAnedcote.content} has been added.`, 10));
-
-    // setTimeout(() => dispatch(hideNotification()), 5000);
   };
 };
 export const { createAnecdote, addVote, setAnecdotes } = anecdoteSlice.actions;

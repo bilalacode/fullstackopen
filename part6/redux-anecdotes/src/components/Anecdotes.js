@@ -1,10 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
 import FilterForm from "./FilterForm";
-// import {
-//   createNotification,
-//   hideNotification,
-// } from "../reducers/notificationReducer";
-// import { setNotification } from "../reducers/notificationReducer";
 import { addNewVote } from "../reducers/anecdoteReducer";
 
 const Anecdotes = () => {
@@ -17,12 +12,7 @@ const Anecdotes = () => {
   });
   const dispatch = useDispatch();
   const handleClick = (anecdote) => {
-    dispatch(addNewVote(anecdote))
-    // dispatch({ type: "anecdote/addVote", payload: anecdote.id });
-    // dispatch(setNotification(`You voted "${anecdote.content}"`, 10))
-    // dispatch(createNotification(`You votes ${anecdote.content}`));
-
-    // setTimeout(() => dispatch(hideNotification()), 5000);
+    dispatch(addNewVote(anecdote));
   };
 
   return (
