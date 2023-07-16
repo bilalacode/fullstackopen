@@ -3,7 +3,7 @@ const CreateBlog = ({ blogNew, setBlogNew, createBlog }) => {
     <div className="formDiv">
       <h2>create</h2>
       <form onSubmit={createBlog}>
-          title:{' '}
+        title:{' '}
         <input
           value={blogNew.title}
           placeholder={'title'}
@@ -12,7 +12,7 @@ const CreateBlog = ({ blogNew, setBlogNew, createBlog }) => {
           }
         />
         <br></br>
-          author:{' '}
+        author:{' '}
         <input
           value={blogNew.author}
           placeholder={'author'}
@@ -21,7 +21,7 @@ const CreateBlog = ({ blogNew, setBlogNew, createBlog }) => {
           }
         />
         <br></br>
-          url:{' '}
+        url:{' '}
         <input
           value={blogNew.url}
           placeholder={'url'}

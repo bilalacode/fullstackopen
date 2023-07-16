@@ -4,7 +4,6 @@ import loginService from './services/loginService'
 import LoginForm from './components/LoginForm'
 import Display from './components/Display'
 import Togglable from './components/Togglable'
-// import CreateBlog from './components/CreateBlog'
 import BlogFrom from './components/BlogForm'
 
 
@@ -64,23 +63,6 @@ const App = () => {
     }
   }, [])
 
-
-
-  // const createBlog = async (event) => {
-  //   event.preventDefault()
-  //   // console.log(blogNew);
-  //   try {
-  //     const response = await blogService.postABlog(blogNew)
-  //     blogFormRed.current.toggleVisibility()
-  //     setBlogNew({ title: '', author: '', url: '' })
-  //     setBlogs(blogs.concat(response))
-  //     setMessageSuccess('A blog has been added')
-  //     setTimeout(() => setMessageSuccess(null), 5000)
-  //   } catch (error) {
-  //     setErrorMessage(JSON.stringify(error.message))
-  //     setTimeout(() => setErrorMessage(null), 5000)
-  //   }
-  // }
 
   const addBlogs = async (addBlogs) => {
     try {
@@ -154,11 +136,6 @@ const App = () => {
         <SuccessMessage message={messageSuccess} />
         <ErrorMessage errorMessage={errorMessage} />
         <Togglable buttonLabel="new blog" ref={blogFormRed}>
-          {/* <CreateBlog
-            blogNew={blogNew}
-            setBlogNew={setBlogNew}
-            createBlog={createBlog}
-          /> */}
 
           <BlogFrom addBlogs={addBlogs} />
         </Togglable>
