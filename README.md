@@ -8,6 +8,32 @@ FullstackOpen is an online course offered by the University of Helsinki. It prov
 
 For more information about the FullstackOpen course, check out their [official website](https://fullstackopen.com).
 
+## Technologies Used
+
+The exercises and projects in this repository cover a wide range of technologies used in modern web development, including but not limited to:
+
+- **Front-end Development:**
+  - React.js
+  - Redux
+  - HTML
+  - CSS
+  - JavaScript (ES6+)
+
+- **Back-end Development:**
+  - Node.js
+  - Express.js
+  - MongoDB
+  - RESTful APIs
+
+- **Additional Tools and Concepts:**
+  - Git and Version Control
+  - Webpack
+  - Babel
+  - Jest (Testing)
+  - Continuous Integration (CI)
+  - Deployment
+
+
 ## Repository Structure
 
 This repository is organized by parts, corresponding to the different modules of the FullstackOpen curriculum. Each part contains exercises covering various topics related to web development. Below is an outline of the repository structure:
