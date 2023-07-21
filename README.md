@@ -1,27 +1,6 @@
 # FullstackOpen Curriculum Exercises
 
-Welcome to my repository for the FullstackOpen curriculum exercises! Here, you'll find my solutions to the exercises from the FullstackOpen course. FullstackOpen is an awesome online course that covers modern web development with a focus on the following technologies:
-
-- **Front-end Development:**
-  - React.js
-  - Redux
-  - HTML
-  - CSS
-  - JavaScript (ES6+)
-
-- **Back-end Development:**
-  - Node.js
-  - Express.js
-  - MongoDB
-  - RESTful APIs
-
-- **Additional Tools and Concepts:**
-  - Git and Version Control
-  - Webpack
-  - Babel
-  - Jest (Testing)
-  - Continuous Integration (CI)
-  - Deployment
+Welcome to my repository for the FullstackOpen curriculum exercises! Here, you'll find my solutions to the exercises from the FullstackOpen course. FullstackOpen is an awesome online course that covers modern web development with React, Redux, Node.js, MongoDB, and other cool technologies.
 
 ## What is FullstackOpen?
 
@@ -31,27 +10,32 @@ For more information about the FullstackOpen course, check out their [official w
 
 ## Repository Structure
 
-This repository is organized by parts, corresponding to the different modules of the FullstackOpen curriculum. Each part contains exercises covering various topics related to web development.
+This repository is organized by parts, corresponding to the different modules of the FullstackOpen curriculum. Each part contains exercises covering various topics related to web development. Below is an outline of the repository structure:
 
-### Part 1 - Course Info
-- [Exercise 1.1](Part1/courseinfo/exercise1.1.md)
-- [Exercise 1.2](Part1/courseinfo/exercise1.2.md)
-- [Exercise 1.3](Part1/courseinfo/exercise1.3.md)
-- ...
-
-### Part 2 - Unicafe
-- [Exercise 2.1](Part2/unicafe/exercise2.1.md)
-- [Exercise 2.2](Part2/unicafe/exercise2.2.md)
-- [Exercise 2.3](Part2/unicafe/exercise2.3.md)
-- ...
-
-### Part 3 - Phonebook
-- [Exercise 3.1](Part3/phonebook/exercise3.1.md)
-- [Exercise 3.2](Part3/phonebook/exercise3.2.md)
-- [Exercise 3.3](Part3/phonebook/exercise3.3.md)
-- ...
-
-### ...
+```
+├── Part0
+│   └── exercises
+├── Part1
+│   └── exercises
+│       ├── courseinfo
+│       ├── unicafe
+│       └── anecdotes
+├── Part2
+│   └── exercises
+│       ├── phonebook
+│       ├── countries
+│       └── ...
+├── Part3
+│   └── exercises
+│       ├── phonebook-backend
+│       └── ...
+├── ...
+└── PartN
+    └── exercises
+        ├── project1
+        ├── project2
+        └── ...
+```
 
 ## How to Use This Repository
 
@@ -59,7 +43,7 @@ Each part of the curriculum is contained within its corresponding folder. You ca
 
 ## Disclaimer
 
-This repository is intended for personal use and as a reference for others going through the FullstackOpen course. While I've put in my best effort to provide solutions to the exercises, there might be different approaches or improvements that could be made. Use the code responsibly and always try to understand the solutions rather than blindly copying them.
+This repository is intended for personal use and as a reference for others going through the FullstackOpen course. While I've put in my best effort to provide accurate and efficient solutions to the exercises, there might be different approaches or improvements that could be made. Use the code responsibly and always try to understand the solutions rather than blindly copying them.
 
 ## Acknowledgments
 
