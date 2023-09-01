@@ -1,0 +1,21 @@
+/* Roboto font import */
+@import "~@fontsource/roboto/300.css";
+@import "~@fontsource/roboto/400.css";
+@import "~@fontsource/roboto/500.css";
+@import "~@fontsource/roboto/700.css";
+
+  
+
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  max-width: 100%;
+  word-wrap: break-word;
+
+
+}
+
+body.dark-mode {
+  background-color: #222;
+  color: #fff;
+}

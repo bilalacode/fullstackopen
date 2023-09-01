@@ -1,0 +1,81 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #333;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    color: #fff;
+    font-size: 2rem;
+    font-weight: bold;
+    text-decoration: none; 
+    margin-top: 0; 
+}
+
+
+.user-info {
+    color: #fff;
+    font-size: 0.9rem; 
+    margin-top: 0.5rem;
+}
+
+.navbarlinks {
+    display: flex;
+    gap: 1rem;
+}
+
+.navbarlinks a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.navbarlinks a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.moon-icon {
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin-left: 1rem;
+    align-self: center;
+    margin-top: 1rem;
+}
+
+/* Media query for screens smaller than 768px */
+@media (max-width: 768px) {
+    header {
+        position: relative; /* This allows the moon-icon to be positioned relative to the header */
+        flex-direction: column; 
+        align-items: flex-start; 
+        /* text-align: center; */
+    }
+
+    .moon-icon {
+        position: absolute; 
+        top: 1rem; 
+        right: 1rem; 
+        margin: 0; 
+    }
+
+    .navbarlinks {
+        width: 100%; 
+        justify-content: center; 
+        flex-wrap: wrap; 
+    }
+
+    .navbarlinks a {
+        margin-right: 0.5rem;
+        padding: 0px;
+    }
+
+}

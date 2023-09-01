@@ -1,0 +1,93 @@
+.blogs {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    flex-direction: column;
+    max-width: 80%; 
+    margin: 0 auto; 
+}
+
+.blogindividual {
+    flex: 1;
+    background-color: #f5f5f5;
+    padding: 1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+body.dark-mode .blogindividual {
+    background-color: #444;
+}
+
+.blogtitle {
+    font-size: 1.5rem;
+    color: #333;
+    transition: color 0.3s;
+}
+
+body.dark-mode .blogtitle {
+    color: #fff;
+}
+
+.author, .metadescription {
+    color: #666;
+    transition: color 0.3s;
+}
+
+body.dark-mode .author, body.dark-mode .metadescription {
+    color: #aaa;
+}
+
+a {
+    display: inline-block;
+    margin-top: 1rem;
+    text-decoration: none;
+    color: #0077cc;
+    transition: color 0.3s;
+}
+
+/* body.dark-mode a {
+    color: #0099ff;
+} */
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.page-button {
+    background-color: #f5f5f5;
+    color: #333;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.page-button:hover {
+    background-color: #0077cc;
+    color: #fff;
+}
+
+.page-button.active {
+    background-color: #0077cc;
+    color: #fff;
+}
+
+body.dark-mode .page-button {
+    background-color: #555;
+    color: #fff;
+}
+
+body.dark-mode .page-button:hover {
+    background-color: #333;
+    color: #fff;
+}
