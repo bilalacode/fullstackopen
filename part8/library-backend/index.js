@@ -169,12 +169,12 @@ const resolvers = {
       const authorIndex = authors.findIndex(
         (author) => author.name === args.name
       );
-
       if (authorIndex === -1) {
         return null;
       }
 
-      authors[authorIndex] = { ...authors[authorIndex], born: args.born };
+      authors[authorIndex] = { ...authors[authorIndex], born: args.setBornTo };
+      console.log(authors[authorIndex])
 
       return authors[authorIndex];
     },
